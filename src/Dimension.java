@@ -1,11 +1,17 @@
+import java.util.ArrayList;
+
 /**
  * Created by laine on 13/09/2016.
+ * This class represents the dimensions that need to be optimised by the sampler.
  */
 public class Dimension {
+    // Make and array list to hold all dimensions created.
+    public static ArrayList<Dimension> myDims = new ArrayList<Dimension>();
+
     private String name;
-    private float paramMin;
-    private float paramMax;
-    private float paramDelta;
+    private double paramMin;
+    private double paramMax;
+    private double paramDelta;
 
     public String getName (){
         return name;
@@ -15,34 +21,35 @@ public class Dimension {
         this.name = name;
     }
 
-    public float getParamMin() {
+    public double getParamMin() {
         return paramMin;
     }
 
-    public void setParamMin(float paramMin) {
+    public void setParamMin(double paramMin) {
         this.paramMin = paramMin;
     }
 
-    public void setParamDelta(float paramDelta) {
+    public void setParamDelta(double paramDelta) {
         this.paramDelta = paramDelta;
     }
 
-    public float getParamDelta() {
+    public double getParamDelta() {
         return paramDelta;
     }
 
-    public void setParamMax(float paramMax) {
+    public void setParamMax(double paramMax) {
         this.paramMax = paramMax;
     }
 
-    public float getParamMax() {
+    public double getParamMax() {
         return paramMax;
     }
 
-    public Dimension(String name, float paramMin, float paramMax, float paramDelta){
+    public Dimension(String name, double paramMin, double paramMax, double paramDelta){
         setName(name);
         setParamMin(paramMin);
         setParamMax(paramMax);
         setParamDelta(paramDelta);
+        myDims.add(this);
     }
 }
