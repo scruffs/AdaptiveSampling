@@ -5,14 +5,14 @@ public class Leaf {
     static int numLeaves;
 
     private final int idNum;
-    private int depth;
+    private int depth = 0;
     private final Params leafParams;
     private final double yVal;
+    private boolean expanded = false;
 
     public Leaf(Params inputParams) {
         numLeaves++;
         idNum = numLeaves;
-        depth = 0;
         leafParams = inputParams;
         double xVal = leafParams.getMyParams().get(0);
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
