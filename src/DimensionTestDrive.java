@@ -17,6 +17,9 @@ public class DimensionTestDrive {
 
         System.out.println("Test1 name = " + test2.myDims.get(0).getName());
         System.out.println("Test2 name = " + test2.myDims.get(1).getName());
+        System.out.println("No. of Dims = " + test.getNum_dims());
+        Dimension test3 = new Dimension("test3", 21.2, 0.1, 0.1);
+        System.out.println("No. of Dims = " + test2.getNum_dims());
     }
 
 }

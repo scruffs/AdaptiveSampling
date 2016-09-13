@@ -7,11 +7,17 @@ import java.util.ArrayList;
 public class Dimension {
     // Make and array list to hold all dimensions created.
     public static ArrayList<Dimension> myDims = new ArrayList<Dimension>();
+    private static int num_dims;
+
 
     private String name;
     private double paramMin;
     private double paramMax;
     private double paramDelta;
+
+    public static int getNum_dims() {
+        return num_dims;
+    }
 
     public String getName (){
         return name;
@@ -51,5 +57,6 @@ public class Dimension {
         setParamMax(paramMax);
         setParamDelta(paramDelta);
         myDims.add(this);
+        num_dims++;
     }
 }
