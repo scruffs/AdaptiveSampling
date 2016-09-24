@@ -6,6 +6,7 @@ import java.util.ArrayList;
  */
 public class Params {
 
+    // this ArrayList will hold a value for all dims to set the current param vals for a leaf.
     public ArrayList<Double> myParams = new ArrayList<Double>();
 
     public Params(double... input) {
@@ -16,6 +17,8 @@ public class Params {
         }
         else {
             for (int i = 0; i < input.length; ++i) {
+                // check for the correct number of params for dimensions.
+                // then populate the Arraylist with a param value for all dims.
                 if (input[i] <= Dimension.myDims.get(i).getParamMax() & input[i] >= Dimension.myDims.get(i).getParamMin()) {
                     myParams.add(input[i]);
                 }
