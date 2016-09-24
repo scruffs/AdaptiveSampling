@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+
 /**
  * Created by laine on 13/09/2016.
  */
 public class Leaf {
     public static int numLeaves;
+    public static ArrayList<Leaf> allLeaves = new ArrayList<>();
 
     private final int idNum;
     private int depth;
@@ -16,6 +19,7 @@ public class Leaf {
         if (expanded == false) {
             Node newNode = new Node(this);
             expanded = true;
+            allLeaves.remove(this);
         }
         else {
             System.out.println("Leaf is already expanded!");

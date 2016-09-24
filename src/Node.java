@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Node {
     public static ArrayList<Node> allNodes = new ArrayList<Node>();
     public static int numNodes;
+    public static int maxDepth;
 
     private int nodeDepth;
     private Leaf[] nodeLeaves = new Leaf[3];
@@ -46,20 +47,28 @@ public class Node {
         originNode = inputLeaf.getMyNode();
         nodeDepth = inputLeaf.getDepth() + 1;
 
+        // Make sure maxDepth is set properly
+        if (nodeDepth > maxDepth) {
+            maxDepth = nodeDepth;
+        }
+
         // Calculate the centres of the new leaves
         double leafCenter = inputLeaf.getLeafParams().getMyParams().get(0);
         double leafDelta = inputLeaf.getDelta();
-        double leafSpace = leafDelta/2;
         double newLeafDelta = leafDelta/3;
 
         // generate new leaves
-        Params params0 = new Params(leafCenter - leafSpace);
-        Params params2 = new Params(leafCenter + leafSpace);
+        Params params0 = new Params(leafCenter - (2 * newLeafDelta));
+        Params params2 = new Params(leafCenter + (2 * newLeafDelta));
         nodeLeaves[0] = new Leaf(params0, newLeafDelta, nodeId, nodeDepth);
         nodeLeaves[1] = new Leaf(inputLeaf.getLeafParams(), newLeafDelta, nodeId, nodeDepth, inputLeaf.getyVal());
         nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, nodeDepth);
 
-
+        if (newLeafDelta > Dimension.myDims.get(0).getParamDelta()) {
+            for (int i = 0; i < 3; i++) {
+                Leaf.allLeaves.add(nodeLeaves[i]);
+            }
+        }
 
         // Add this node to the ArrayList of nodes.
         allNodes.add(this);
