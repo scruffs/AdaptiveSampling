@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -13,11 +14,12 @@ public class Leaf {
     private final double delta;
     private final double yVal;
     private final int myNode;
+    private final int originLeaf;
     private boolean expanded = false;
 
     public void expandLeaf() {
-        if (expanded == false) {
-            Node newNode = new Node(this);
+        if (!expanded) {
+            new Node(this);
             expanded = true;
             allLeaves.remove(this);
         }
@@ -26,25 +28,45 @@ public class Leaf {
         }
     }
 
+    public void writeLeaf(PrintWriter pw) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.leafParams.getMyParams().get(0));
+        sb.append(", ");
+        sb.append(this.yVal);
+        sb.append(", ");
+        sb.append(this.depth);
+        sb.append(", ");
+        sb.append(this.delta);
+        sb.append(", ");
+        sb.append(this.idNum);
+        sb.append(", ");
+        sb.append(this.originLeaf);
+        sb.append("\n");
+
+        pw.write(sb.toString());
+    }
+
     // Constructor
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth) {
+    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth, int inLeaf) {
         numLeaves++;
         idNum = numLeaves;
         depth = inDepth;
         leafParams = inputParams;
         delta = inputDelta;
         myNode = nodeIn;
+        originLeaf = inLeaf;
         double xVal = leafParams.getMyParams().get(0);
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
     }
     // Constructor overrides yVal
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth, double inYVal) {
+    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth,int inLeaf, double inYVal) {
         numLeaves++;
         idNum = numLeaves;
         depth = inDepth;
         leafParams = inputParams;
         delta = inputDelta;
         myNode = nodeIn;
+        originLeaf = inLeaf;
         yVal = inYVal;
     }
 
@@ -54,10 +76,6 @@ public class Leaf {
 
     public int getDepth() {
         return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
     }
 
     public Params getLeafParams() {

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Created by laine on 13/09/2016.
+ *
  */
 public class Node {
     public static ArrayList<Node> allNodes = new ArrayList<Node>();
@@ -60,9 +61,9 @@ public class Node {
         // generate new leaves
         Params params0 = new Params(leafCenter - (2 * newLeafDelta));
         Params params2 = new Params(leafCenter + (2 * newLeafDelta));
-        nodeLeaves[0] = new Leaf(params0, newLeafDelta, nodeId, nodeDepth);
-        nodeLeaves[1] = new Leaf(inputLeaf.getLeafParams(), newLeafDelta, nodeId, nodeDepth, inputLeaf.getyVal());
-        nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, nodeDepth);
+        nodeLeaves[0] = new Leaf(params0, newLeafDelta, nodeId, nodeDepth, originLeaf);
+        nodeLeaves[1] = new Leaf(inputLeaf.getLeafParams(), newLeafDelta, nodeId, nodeDepth, originLeaf, inputLeaf.getyVal());
+        nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, originLeaf, nodeDepth);
 
         if (newLeafDelta > Dimension.myDims.get(0).getParamDelta()) {
             for (int i = 0; i < 3; i++) {
