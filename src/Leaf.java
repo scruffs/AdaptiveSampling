@@ -17,9 +17,9 @@ public class Leaf {
     private final int originLeaf;
     private boolean expanded = false;
 
-    public void expandLeaf() {
+    public void expandLeaf(PrintWriter pw) {
         if (!expanded) {
-            new Node(this);
+            new Node(this, pw);
             expanded = true;
             allLeaves.remove(this);
         }
@@ -31,15 +31,15 @@ public class Leaf {
     public void writeLeaf(PrintWriter pw) {
         StringBuilder sb = new StringBuilder();
         sb.append(this.leafParams.getMyParams().get(0));
-        sb.append(", ");
+        sb.append(",");
         sb.append(this.yVal);
-        sb.append(", ");
+        sb.append(",");
         sb.append(this.depth);
-        sb.append(", ");
+        sb.append(",");
         sb.append(this.delta);
-        sb.append(", ");
+        sb.append(",");
         sb.append(this.idNum);
-        sb.append(", ");
+        sb.append(",");
         sb.append(this.originLeaf);
         sb.append("\n");
 

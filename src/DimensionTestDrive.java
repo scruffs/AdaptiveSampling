@@ -10,7 +10,7 @@ public class DimensionTestDrive {
     public static void main(String[] args) {
 
         // Make the first dimension
-        Dimension test = new Dimension("test1", -1000, 1000, 1);
+        Dimension test = new Dimension("test1", -1000, 1000, 2);
 
         // Create a instance of parameters
         Params myParams = new Params(0.0);
@@ -18,9 +18,6 @@ public class DimensionTestDrive {
         // Create the first leaf with the parameters given above. This will be the centre of the parameter space
         Leaf myLeaf = new Leaf(myParams, 1000, 0, 0, 0);
         Leaf.allLeaves.add(myLeaf);
-
-        // Expand this first leaf to generate the starting points
-        myLeaf.expandLeaf();
 
         // Open a printwriter instance to write everything to file
         PrintWriter pw = null;
@@ -32,18 +29,21 @@ public class DimensionTestDrive {
 
         // Write header for output file
         StringBuilder sb = new StringBuilder();
-        sb.append("x_val, y_val, depth, delta, LeafId, originLeaf\n");
+        sb.append("x_val,y_val,depth,delta,LeafId,originLeaf\n");
         pw.write(sb.toString());
 
-        // Write the first 3 leaves to file
-        for (int i = 0; i < 3; i++) {
-            Leaf.allLeaves.get(i).writeLeaf(pw);
-        }
+        // Expand this first leaf to generate the starting points
+        myLeaf.expandLeaf(pw);
+
+//        // Write the first 3 leaves to file
+//        for (int i = 0; i < 3; i++) {
+//            Leaf.allLeaves.get(i).writeLeaf(pw);
+//        }
 
         // This is the actual algorithm to expand nodes around the maximum yVal leaves
         for (int i = 0; i < 18; i++) {
             // Find the max yVal leaf at each node depth
-            for (int j = Node.maxDepth; j > 0; j--) {
+            for (int j = 1; j <= i + 1; j++) {
                 Leaf maxLeaf = null;
                 double testMax= -1000.0;
                 for (Leaf in : Leaf.allLeaves) {
@@ -55,16 +55,11 @@ public class DimensionTestDrive {
                 // Check that an unexpanded leaf is available for each depth. Then expand it and write the data to file
                 if (maxLeaf != null) {
                     System.out.println("Expanding!");
-                    maxLeaf.expandLeaf();
-
-                    Leaf lowLeaf = Leaf.allLeaves.get(Leaf.allLeaves.size()-3);
-                    Leaf hiLeaf = Leaf.allLeaves.get(Leaf.allLeaves.size()-1);
-
-                    lowLeaf.writeLeaf(pw);
-                    hiLeaf.writeLeaf(pw);
+                    maxLeaf.expandLeaf(pw);
 
                 }
             }
+
         }
 
         // Close print writer

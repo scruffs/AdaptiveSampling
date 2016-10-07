@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +42,7 @@ public class Node {
     }
 
     // constructor
-    public Node(Leaf inputLeaf) {
+    public Node(Leaf inputLeaf, PrintWriter pw) {
         numNodes++;
         nodeId = numNodes;
         originLeaf = inputLeaf.getIdNum();
@@ -63,7 +64,11 @@ public class Node {
         Params params2 = new Params(leafCenter + (2 * newLeafDelta));
         nodeLeaves[0] = new Leaf(params0, newLeafDelta, nodeId, nodeDepth, originLeaf);
         nodeLeaves[1] = new Leaf(inputLeaf.getLeafParams(), newLeafDelta, nodeId, nodeDepth, originLeaf, inputLeaf.getyVal());
-        nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, originLeaf, nodeDepth);
+        nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, nodeDepth, originLeaf);
+
+        for (int i = 0; i < 3; i++) {
+            nodeLeaves[i].writeLeaf(pw);
+        }
 
         if (newLeafDelta > Dimension.myDims.get(0).getParamDelta()) {
             for (int i = 0; i < 3; i++) {
