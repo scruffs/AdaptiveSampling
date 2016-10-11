@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 /**
  * Created by laine on 07/10/2016.
  */
-public class AdapSampAlgorithm {
+public class SOOAlgorithm {
 
     public void AdapSamp() {
 
@@ -37,21 +37,21 @@ public class AdapSampAlgorithm {
 
         // This is the actual algorithm to expand nodes around the maximum yVal leaves
         for (int i = 0; i < 18; i++) {
-            // Find the max yVal leaf at each node depth
-            for (int j = 1; j <= i + 1; j++) {
+            // Find the max yVal leaf at each node depth or below
+            for (int j = Node.maxDepth; j > 0; j--) {
                 Leaf maxLeaf = null;
                 double testMax= -1000.0;
                 for (Leaf in : Leaf.allLeaves) {
-                    if (in.getDepth() == j & in.getExpanded() == false & in.getyVal() > testMax) {
+                    if (in.getDepth() <= j & !in.getExpanded() & in.getyVal() > testMax) {
                         maxLeaf = in;
                         testMax = in.getyVal();
                     }
                 }
                 // Check that an unexpanded leaf is available for each depth. Then expand it and write the data to file
                 if (maxLeaf != null) {
-                    System.out.println("Expanding!");
+                    System.out.println("Expanding!" + maxLeaf.getDepth());
                     maxLeaf.expandLeaf(pw);
-
+                    j = maxLeaf.getDepth();
                 }
             }
 
