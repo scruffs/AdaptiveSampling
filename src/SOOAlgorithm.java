@@ -1,6 +1,11 @@
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.Arrays;
 
 /**
  * Created by laine on 07/10/2016.
@@ -33,7 +38,7 @@ public class SOOAlgorithm {
         pw.write(sb.toString());
 
         // Expand this first leaf to generate the starting points
-        myLeaf.expandLeaf(pw);
+        myLeaf.ExpandLeaf(pw);
 
         // This is the actual algorithm to expand nodes around the maximum yVal leaves
         for (int i = 0; i < 18; i++) {
@@ -50,7 +55,7 @@ public class SOOAlgorithm {
                 // Check that an unexpanded leaf is available for each depth. Then expand it and write the data to file
                 if (maxLeaf != null) {
                     System.out.println("Expanding!" + maxLeaf.getDepth());
-                    maxLeaf.expandLeaf(pw);
+                    maxLeaf.ExpandLeaf(pw);
                     j = maxLeaf.getDepth();
                 }
             }
@@ -60,5 +65,16 @@ public class SOOAlgorithm {
         // Close print writer
         assert pw != null;
         pw.close();
+
+        // Unit tests against know .csv file
+        File unitTest = new File("UnitTestData.csv");
+        File newOutput = new File("NewData.csv");
+        boolean areFilesEqual = false;
+        try {
+            areFilesEqual = FileUtils.contentEquals(unitTest, newOutput);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("File testing produces " + areFilesEqual + " result!");
     }
 }

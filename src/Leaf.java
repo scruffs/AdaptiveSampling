@@ -2,7 +2,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
- * Created by laine on 13/09/2016.
+ * Created by Dave on 13/09/2016.
+ * Each leaf
  */
 public class Leaf {
     public static int numLeaves;
@@ -17,7 +18,7 @@ public class Leaf {
     private final int originLeaf;
     private boolean expanded = false;
 
-    public void expandLeaf(PrintWriter pw) {
+    public void ExpandLeaf(PrintWriter pw) {
         if (!expanded) {
             new Node(this, pw);
             expanded = true;
