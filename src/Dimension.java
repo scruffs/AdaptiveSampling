@@ -6,8 +6,8 @@ import java.util.ArrayList;
  */
 public class Dimension {
     // Make and array list to hold all dimensions created and a count of the total number of dims.
-    public static ArrayList<Dimension> myDims = new ArrayList<Dimension>();
-    private static int num_dims;
+    public static ArrayList<Dimension> allDims = new ArrayList<Dimension>();
+    private static int numDims;
 
 
     private String name;
@@ -15,8 +15,8 @@ public class Dimension {
     private double paramMax;
     private double paramDelta;
 
-    public static int getNum_dims() {
-        return num_dims;
+    public static int getNumDims() {
+        return numDims;
     }
 
     public String getName (){
@@ -58,7 +58,7 @@ public class Dimension {
         setParamMin(paramMin);
         setParamMax(paramMax);
         setParamDelta(paramDelta);
-        myDims.add(this);
-        num_dims++;
+        allDims.add(this);
+        numDims++;
     }
 }

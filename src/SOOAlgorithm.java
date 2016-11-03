@@ -10,19 +10,19 @@ public class SOOAlgorithm {
     public void AdapSamp() {
 
         // Make the first dimension
-        Dimension test = new Dimension("test1", -1000, 1000, 2);
+        Dimension test = new Dimension("schwef_x", -1000, 1000, 2);
 
         // Create a instance of parameters
-        Params myParams = new Params(0.0);
+        CoOrds myCoOrds = new CoOrds(0.0);
 
         // Create the first leaf with the parameters given above. This will be the centre of the parameter space
-        Leaf myLeaf = new Leaf(myParams, 1000, 0, 0, 0);
+        Leaf myLeaf = new Leaf(myCoOrds, 1000, 0, 0, 0);
         Leaf.allLeaves.add(myLeaf);
 
         // Open a printwriter instance to write everything to file
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new File("test.csv"));
+            pw = new PrintWriter(new File("NewData.csv"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

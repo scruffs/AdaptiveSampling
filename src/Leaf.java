@@ -10,7 +10,7 @@ public class Leaf {
 
     private final int idNum;
     private int depth;
-    private final Params leafParams;
+    private final CoOrds leafCoOrds;
     private final double delta;
     private final double yVal;
     private final int myNode;
@@ -30,7 +30,7 @@ public class Leaf {
 
     public void writeLeaf(PrintWriter pw) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.leafParams.getMyParams().get(0));
+        sb.append(this.leafCoOrds.getMyCoOrds().get(0));
         sb.append(",");
         sb.append(this.yVal);
         sb.append(",");
@@ -47,23 +47,23 @@ public class Leaf {
     }
 
     // Constructor
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth, int inLeaf) {
+    public Leaf(CoOrds inputCoOrds, double inputDelta, int nodeIn, int inDepth, int inLeaf) {
         numLeaves++;
         idNum = numLeaves;
         depth = inDepth;
-        leafParams = inputParams;
+        leafCoOrds = inputCoOrds;
         delta = inputDelta;
         myNode = nodeIn;
         originLeaf = inLeaf;
-        double xVal = leafParams.getMyParams().get(0);
+        double xVal = leafCoOrds.getMyCoOrds().get(0);
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
     }
     // Constructor overrides yVal
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth,int inLeaf, double inYVal) {
+    public Leaf(CoOrds inputCoOrds, double inputDelta, int nodeIn, int inDepth, int inLeaf, double inYVal) {
         numLeaves++;
         idNum = numLeaves;
         depth = inDepth;
-        leafParams = inputParams;
+        leafCoOrds = inputCoOrds;
         delta = inputDelta;
         myNode = nodeIn;
         originLeaf = inLeaf;
@@ -78,8 +78,8 @@ public class Leaf {
         return depth;
     }
 
-    public Params getLeafParams() {
-        return leafParams;
+    public CoOrds getLeafCoOrds() {
+        return leafCoOrds;
     }
 
     public double getDelta() {

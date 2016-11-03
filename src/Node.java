@@ -55,22 +55,22 @@ public class Node {
         }
 
         // Calculate the centres of the new leaves
-        double leafCenter = inputLeaf.getLeafParams().getMyParams().get(0);
+        double leafCenter = inputLeaf.getLeafCoOrds().getMyCoOrds().get(0);
         double leafDelta = inputLeaf.getDelta();
         double newLeafDelta = leafDelta/3;
 
         // generate new leaves
-        Params params0 = new Params(leafCenter - (2 * newLeafDelta));
-        Params params2 = new Params(leafCenter + (2 * newLeafDelta));
-        nodeLeaves[0] = new Leaf(params0, newLeafDelta, nodeId, nodeDepth, originLeaf);
-        nodeLeaves[1] = new Leaf(inputLeaf.getLeafParams(), newLeafDelta, nodeId, nodeDepth, originLeaf, inputLeaf.getyVal());
-        nodeLeaves[2] = new Leaf(params2, newLeafDelta, nodeId, nodeDepth, originLeaf);
+        CoOrds coOrds0 = new CoOrds(leafCenter - (2 * newLeafDelta));
+        CoOrds coOrds2 = new CoOrds(leafCenter + (2 * newLeafDelta));
+        nodeLeaves[0] = new Leaf(coOrds0, newLeafDelta, nodeId, nodeDepth, originLeaf);
+        nodeLeaves[1] = new Leaf(inputLeaf.getLeafCoOrds(), newLeafDelta, nodeId, nodeDepth, originLeaf, inputLeaf.getyVal());
+        nodeLeaves[2] = new Leaf(coOrds2, newLeafDelta, nodeId, nodeDepth, originLeaf);
 
         for (int i = 0; i < 3; i++) {
             nodeLeaves[i].writeLeaf(pw);
         }
 
-        if (newLeafDelta > Dimension.myDims.get(0).getParamDelta()) {
+        if (newLeafDelta > Dimension.allDims.get(0).getParamDelta()) {
             for (int i = 0; i < 3; i++) {
                 Leaf.allLeaves.add(nodeLeaves[i]);
             }
