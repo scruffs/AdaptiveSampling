@@ -30,7 +30,7 @@ public class Node {
 
         for (int i = start; i < 3; i++) {
             if (start == -1) {
-                System.out.println("Node completly expanded!");
+                System.out.println("Node completely expanded!");
                 return 0;
             }
             if (nodeLeaves[i].getyVal() > maxY & nodeLeaves[i].getExpanded() == false) {
@@ -67,7 +67,7 @@ public class Node {
         nodeLeaves[2] = new Leaf(coOrds2, newLeafDelta, nodeId, nodeDepth, originLeaf);
 
         for (int i = 0; i < 3; i++) {
-            nodeLeaves[i].writeLeaf(pw);
+            nodeLeaves[i].WriteLeaf(pw);
         }
 
         if (newLeafDelta > Dimension.allDims.get(0).getParamDelta()) {

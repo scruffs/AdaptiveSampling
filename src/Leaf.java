@@ -28,22 +28,12 @@ public class Leaf {
         }
     }
 
-    public void writeLeaf(PrintWriter pw) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.leafCoOrds.getMyCoOrds().get(0));
-        sb.append(",");
-        sb.append(this.yVal);
-        sb.append(",");
-        sb.append(this.depth);
-        sb.append(",");
-        sb.append(this.delta);
-        sb.append(",");
-        sb.append(this.idNum);
-        sb.append(",");
-        sb.append(this.originLeaf);
-        sb.append("\n");
+    public void WriteLeaf(PrintWriter pw) {
+        pw.write(ConstructStringForFile());
+    }
 
-        pw.write(sb.toString());
+    public String ConstructStringForFile() {
+        return this.leafCoOrds.getMyCoOrds().get(0) + "," + this.yVal + "," + this.depth + "," + this.delta + "," + this.idNum + "," + this.originLeaf + "\n";
     }
 
     // Constructor
