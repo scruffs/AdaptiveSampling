@@ -23,7 +23,7 @@ public class Leaf {
             Node ExpandingNode = new Node(this);
             expanded = true;
             unexpandedLeaves.remove(this);
-            WriteExpandingNode(ExpandingNode, pw);
+            WriteExpandingNodeToFile(ExpandingNode, pw);
         }
         else {
             System.out.println("Leaf is already expanded!");
@@ -34,17 +34,17 @@ public class Leaf {
         return !expanded && delta/3 > Dimension.allDims.get(0).getDimDelta();
     }
 
-    public void WriteExpandingNode(Node ExpandingNode, PrintWriter pw) {
+    public void WriteExpandingNodeToFile(Node ExpandingNode, PrintWriter pw) {
         for (Leaf leafToWrite : ExpandingNode.getNodeLeaves()) {
             leafToWrite.WriteEachLeaf(pw);
         }
     }
 
     public void WriteEachLeaf(PrintWriter pw) {
-        pw.write(ConstructStringForFile());
+        pw.write(BuildStringForFile());
     }
 
-    public String ConstructStringForFile() {
+    public String BuildStringForFile() {
         return this.leafCoOrds.getMyCoOrds().get(0) + "," + this.yVal + "," + this.depth + "," + this.delta + "," + this.idNum + "," + this.originLeaf + "\n";
     }
 
@@ -73,14 +73,14 @@ public class Leaf {
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
     }
     // Constructor overrides yVal
-    public Leaf(CoOrds inputCoOrds, double inputDelta, int nodeIn, int inDepth, int inLeaf, double inYVal) {
+    public Leaf(CoOrds inputCoOrds, double inputDelta, Node originNode, double inYVal) {
         numLeaves++;
         idNum = numLeaves;
-        depth = inDepth;
+        depth = originNode.getNodeDepth();
         leafCoOrds = inputCoOrds;
         delta = inputDelta;
-        myNode = nodeIn;
-        originLeaf = inLeaf;
+        myNode = originNode.getNodeId();
+        originLeaf = originNode.getOriginLeaf();
         yVal = inYVal;
     }
 
