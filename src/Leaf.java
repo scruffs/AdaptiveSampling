@@ -49,6 +49,18 @@ public class Leaf {
         double xVal = leafCoOrds.getMyCoOrds().get(0);
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
     }
+    // Constructor
+    public Leaf(CoOrds inputCoOrds, double inputDelta, Node originNode) {
+        numLeaves++;
+        idNum = numLeaves;
+        depth = originNode.getNodeDepth();
+        leafCoOrds = inputCoOrds;
+        delta = inputDelta;
+        myNode = originNode.getNodeId();
+        originLeaf = originNode.getOriginLeaf();
+        double xVal = leafCoOrds.getMyCoOrds().get(0);
+        yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
+    }
     // Constructor overrides yVal
     public Leaf(CoOrds inputCoOrds, double inputDelta, int nodeIn, int inDepth, int inLeaf, double inYVal) {
         numLeaves++;

@@ -42,35 +42,29 @@ public class Node {
     }
 
     // constructor
-    public Node(Leaf inputLeaf, PrintWriter pw) {
+    public Node(Leaf ExpandingLeaf, PrintWriter pw) {
         numNodes++;
         nodeId = numNodes;
-        originLeaf = inputLeaf.getIdNum();
-        originNode = inputLeaf.getMyNode();
-        nodeDepth = inputLeaf.getDepth() + 1;
+        originLeaf = ExpandingLeaf.getIdNum();
+        originNode = ExpandingLeaf.getMyNode();
+        nodeDepth = ExpandingLeaf.getDepth() + 1;
 
-        // Make sure maxDepth is set properly
-        if (nodeDepth > maxDepth) {
-            maxDepth = nodeDepth;
-        }
+        CheckSetMaxDepth();
 
         // Calculate the centres of the new leaves
-        double leafCenter = inputLeaf.getLeafCoOrds().getMyCoOrds().get(0);
-        double leafDelta = inputLeaf.getDelta();
+        double leafCenter = ExpandingLeaf.getLeafCoOrds().getMyCoOrds().get(0);
+        double leafDelta = ExpandingLeaf.getDelta();
         double newLeafDelta = leafDelta/3;
 
         // generate new leaves
-        CoOrds coOrds0 = new CoOrds(leafCenter - (2 * newLeafDelta));
-        CoOrds coOrds2 = new CoOrds(leafCenter + (2 * newLeafDelta));
-        nodeLeaves[0] = new Leaf(coOrds0, newLeafDelta, nodeId, nodeDepth, originLeaf);
-        nodeLeaves[1] = new Leaf(inputLeaf.getLeafCoOrds(), newLeafDelta, nodeId, nodeDepth, originLeaf, inputLeaf.getyVal());
-        nodeLeaves[2] = new Leaf(coOrds2, newLeafDelta, nodeId, nodeDepth, originLeaf);
+        CoOrds[] newCoOrds = NewNodeCoOrds(leafCenter, newLeafDelta);
+        FillNodeLeaves(newCoOrds, newLeafDelta, ExpandingLeaf);
 
         for (int i = 0; i < 3; i++) {
             nodeLeaves[i].WriteLeaf(pw);
         }
 
-        if (newLeafDelta > Dimension.allDims.get(0).getParamDelta()) {
+        if (newLeafDelta > Dimension.allDims.get(0).getDimDelta()) {
             for (int i = 0; i < 3; i++) {
                 Leaf.allLeaves.add(nodeLeaves[i]);
             }
@@ -78,6 +72,26 @@ public class Node {
 
         // Add this node to the ArrayList of nodes.
         allNodes.add(this);
+    }
+
+    private void CheckSetMaxDepth() {
+        if (nodeDepth > maxDepth) {
+            maxDepth = nodeDepth;
+        }
+    }
+
+    private CoOrds[] NewNodeCoOrds(double leafCenter, double newLeafDelta) {
+        CoOrds[] NewCoOrds = new CoOrds[3];
+        for (int i = -1; i < 2; i++) {
+            NewCoOrds[i + 1] = new CoOrds(leafCenter + (i * 2 * newLeafDelta));
+        }
+        return NewCoOrds;
+    }
+
+    private void FillNodeLeaves(CoOrds[] newCoOrds, double newLeafDelta, Leaf ExpandingLeaf) {
+        nodeLeaves[0] = new Leaf(newCoOrds[0], newLeafDelta, Node.this);
+        nodeLeaves[1] = new Leaf(newCoOrds[1], newLeafDelta, nodeId, nodeDepth, originLeaf, ExpandingLeaf.getyVal());
+        nodeLeaves[2] = new Leaf(newCoOrds[2], newLeafDelta, Node.this);
     }
 
     public double getMaxY() {
@@ -95,6 +109,8 @@ public class Node {
     public int getNodeId() {
         return nodeId;
     }
+
+    public int getOriginLeaf() { return originLeaf; }
 
     public Leaf[] getNodeLeaves() {
         return nodeLeaves;

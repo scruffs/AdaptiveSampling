@@ -11,9 +11,9 @@ public class Dimension {
 
 
     private String name;
-    private double paramMin;
-    private double paramMax;
-    private double paramDelta;
+    private double dimMin;
+    private double dimMax;
+    private double dimDelta;
 
     public static int getNumDims() {
         return numDims;
@@ -27,37 +27,37 @@ public class Dimension {
         this.name = name;
     }
 
-    public double getParamMin() {
-        return paramMin;
+    public double getDimMin() {
+        return dimMin;
     }
 
-    public void setParamMin(double paramMin) {
-        this.paramMin = paramMin;
+    public void setDimMin(double dimMin) {
+        this.dimMin = dimMin;
     }
 
-    public void setParamDelta(double paramDelta) {
-        this.paramDelta = paramDelta;
+    public void setDimDelta(double dimDelta) {
+        this.dimDelta = dimDelta;
     }
 
-    public double getParamDelta() {
-        return paramDelta;
+    public double getDimDelta() {
+        return dimDelta;
     }
 
-    public void setParamMax(double paramMax) {
-        this.paramMax = paramMax;
+    public void setDimMax(double dimMax) {
+        this.dimMax = dimMax;
     }
 
-    public double getParamMax() {
-        return paramMax;
+    public double getDimMax() {
+        return dimMax;
     }
 
     // the constructor must have all parameters set upon construction.
     // It also adds each new dimension to the static ArrayList and increments the total number of dims.
-    public Dimension(String name, double paramMin, double paramMax, double paramDelta){
+    public Dimension(String name, double dimMin, double dimMax, double dimDelta){
         setName(name);
-        setParamMin(paramMin);
-        setParamMax(paramMax);
-        setParamDelta(paramDelta);
+        setDimMin(dimMin);
+        setDimMax(dimMax);
+        setDimDelta(dimDelta);
         allDims.add(this);
         numDims++;
     }

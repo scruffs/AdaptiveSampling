@@ -34,7 +34,7 @@ public class CoOrds {
     }
 
     public boolean CheckMinMaxValues(double dimValue, int i){
-        return dimValue <= Dimension.allDims.get(i).getParamMax() & dimValue >= Dimension.allDims.get(i).getParamMin();
+        return dimValue <= Dimension.allDims.get(i).getDimMax() & dimValue >= Dimension.allDims.get(i).getDimMin();
     }
 
     public ArrayList<Double> getMyCoOrds() {

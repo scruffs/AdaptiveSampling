@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.util.Arrays;
 
 /**
- * Created by laine on 07/10/2016.
+ * Created by Dave on 07/10/2016.
+ * The implementation of the Simultaneous Optimistic Optimisation algorithm developed by Remi Munos.
+ * A description can be found at http://chercheurs.lille.inria.fr/~munos/papers/files/FTML2012.pdf.
  */
 public class SOOAlgorithm {
 
