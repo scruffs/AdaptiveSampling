@@ -1,4 +1,3 @@
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +41,7 @@ public class Node {
     }
 
     // constructor
-    public Node(Leaf ExpandingLeaf, PrintWriter pw) {
+    public Node(Leaf ExpandingLeaf) {
         numNodes++;
         nodeId = numNodes;
         originLeaf = ExpandingLeaf.getIdNum();
@@ -60,13 +59,9 @@ public class Node {
         CoOrds[] newCoOrds = NewNodeCoOrds(leafCenter, newLeafDelta);
         FillNodeLeaves(newCoOrds, newLeafDelta, ExpandingLeaf);
 
-        for (int i = 0; i < 3; i++) {
-            nodeLeaves[i].WriteLeaf(pw);
-        }
-
         if (newLeafDelta > Dimension.allDims.get(0).getDimDelta()) {
             for (int i = 0; i < 3; i++) {
-                Leaf.allLeaves.add(nodeLeaves[i]);
+                Leaf.unexpandedLeaves.add(nodeLeaves[i]);
             }
         }
 

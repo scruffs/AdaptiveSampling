@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Leaf {
     public static int numLeaves;
-    public static ArrayList<Leaf> allLeaves = new ArrayList<>();
+    public static ArrayList<Leaf> unexpandedLeaves = new ArrayList<>();
 
     private final int idNum;
     private int depth;
@@ -19,17 +19,28 @@ public class Leaf {
     private boolean expanded = false;
 
     public void ExpandLeaf(PrintWriter pw) {
-        if (!expanded) {
-            new Node(this, pw);
+        if (CheckDeltaMinAndExpanded()) {
+            Node ExpandingNode = new Node(this);
             expanded = true;
-            allLeaves.remove(this);
+            unexpandedLeaves.remove(this);
+            WriteExpandingNode(ExpandingNode, pw);
         }
         else {
             System.out.println("Leaf is already expanded!");
         }
     }
 
-    public void WriteLeaf(PrintWriter pw) {
+    public boolean CheckDeltaMinAndExpanded() {
+        return !expanded && delta/3 > Dimension.allDims.get(0).getDimDelta();
+    }
+
+    public void WriteExpandingNode(Node ExpandingNode, PrintWriter pw) {
+        for (Leaf leafToWrite : ExpandingNode.getNodeLeaves()) {
+            leafToWrite.WriteEachLeaf(pw);
+        }
+    }
+
+    public void WriteEachLeaf(PrintWriter pw) {
         pw.write(ConstructStringForFile());
     }
 
