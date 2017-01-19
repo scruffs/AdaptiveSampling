@@ -1,5 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Dave on 13/09/2016.
@@ -8,6 +11,7 @@ import java.util.ArrayList;
 public class Leaf {
     public static int numLeaves;
     public static ArrayList<Leaf> unexpandedLeaves = new ArrayList<>();
+    private static PrintWriter printWriter = null;
 
     private final int idNum;
     private int depth;
@@ -18,34 +22,52 @@ public class Leaf {
     private final int originLeaf;
     private boolean expanded = false;
 
-    public void ExpandLeaf(PrintWriter pw) {
+
+    public void ExpandLeaf() {
         if (CheckDeltaMinAndExpanded()) {
             Node ExpandingNode = new Node(this);
             expanded = true;
             unexpandedLeaves.remove(this);
-            WriteExpandingNodeToFile(ExpandingNode, pw);
-        }
-        else {
+            WriteExpandingNodeToFile(ExpandingNode);
+        } else {
             System.out.println("Leaf is already expanded!");
         }
     }
 
     public boolean CheckDeltaMinAndExpanded() {
-        return !expanded && delta/3 > Dimension.allDims.get(0).getDimDelta();
+        return !expanded && delta / 3 > Dimension.allDims.get(0).getDimDelta();
     }
 
-    public void WriteExpandingNodeToFile(Node ExpandingNode, PrintWriter pw) {
+    public void WriteExpandingNodeToFile(Node ExpandingNode) {
         for (Leaf leafToWrite : ExpandingNode.getNodeLeaves()) {
-            leafToWrite.WriteEachLeaf(pw);
+            leafToWrite.WriteEachLeaf();
         }
     }
 
-    public void WriteEachLeaf(PrintWriter pw) {
-        pw.write(BuildStringForFile());
-    }
+    public void WriteEachLeaf() {printWriter.write(BuildStringForFile());}
 
     public String BuildStringForFile() {
         return this.leafCoOrds.getMyCoOrds().get(0) + "," + this.yVal + "," + this.depth + "," + this.delta + "," + this.idNum + "," + this.originLeaf + "\n";
+    }
+
+    public void OpenPrintWriterToFile() {
+        try {
+            printWriter = new PrintWriter(new File("NewData.csv"));
+            AddHeaderToFile();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AddHeaderToFile() {
+        StringBuilder sb = new StringBuilder();
+            sb.append("x_val,y_val,depth,delta,LeafId,originLeaf\n");
+            printWriter.write(sb.toString());
+    }
+
+    // Close print writer
+    public static void ClosePrintWriter() {
+        Objects.requireNonNull(printWriter).close();
     }
 
     // Constructor

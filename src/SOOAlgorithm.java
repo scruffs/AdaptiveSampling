@@ -17,28 +17,14 @@ public class SOOAlgorithm {
         // Make the first dimension
         Dimension test = new Dimension("schwef_x", -1000, 1000, 2);
 
-        // Create a instance of parameters
+        // Create an instance of parameters
         CoOrds myCoOrds = new CoOrds(0.0);
 
         // Create the first leaf with the parameters given above. This will be the centre of the parameter space
         Leaf startingLeaf = new Leaf(myCoOrds, 1000, 0, 0, 0);
         Leaf.unexpandedLeaves.add(startingLeaf);
-
-        // Open a printwriter instance to write everything to file
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new File("NewData.csv"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        // Write header for output file
-        StringBuilder sb = new StringBuilder();
-        sb.append("x_val,y_val,depth,delta,LeafId,originLeaf\n");
-        pw.write(sb.toString());
-
-        // Expand this first leaf to generate the starting points
-        startingLeaf.ExpandLeaf(pw);
+        startingLeaf.OpenPrintWriterToFile();
+        startingLeaf.ExpandLeaf();
 
         // This is the actual algorithm to expand nodes around the maximum yVal leaves
         for (int i = 0; i < 22; i++) {
@@ -55,18 +41,16 @@ public class SOOAlgorithm {
                 // Check that an unexpanded leaf is available for each depth. Then expand it and write the data to file
                 if (maxLeaf != null) {
                     System.out.println("Expanding!" + maxLeaf.getDepth());
-                    maxLeaf.ExpandLeaf(pw);
+                    maxLeaf.ExpandLeaf();
                     j = maxLeaf.getDepth();
                 }
             }
 
         }
 
-        // Close print writer
-        assert pw != null;
-        pw.close();
+        Leaf.ClosePrintWriter();
 
-        // Unit tests against know .csv file
+        // Unit tests against known .csv file
         File unitTest = new File("UnitTestData.csv");
         File newOutput = new File("NewData.csv");
         boolean areFilesEqual = false;
