@@ -1,72 +1,108 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
- * Created by laine on 13/09/2016.
+ * Created by Dave on 13/09/2016.
+ * Each leaf
  */
 public class Leaf {
     public static int numLeaves;
-    public static ArrayList<Leaf> allLeaves = new ArrayList<>();
+    public static ArrayList<Leaf> unexpandedLeaves = new ArrayList<>();
+    private static PrintWriter printWriter = null;
 
     private final int idNum;
     private int depth;
-    private final Params leafParams;
+    private final CoOrds leafCoOrds;
     private final double delta;
     private final double yVal;
     private final int myNode;
     private final int originLeaf;
     private boolean expanded = false;
 
-    public void expandLeaf(PrintWriter pw) {
-        if (!expanded) {
-            new Node(this, pw);
+
+    public void ExpandLeaf() {
+        if (CheckDeltaMinAndExpanded()) {
+            Node ExpandingNode = new Node(this);
             expanded = true;
-            allLeaves.remove(this);
-        }
-        else {
+            unexpandedLeaves.remove(this);
+            WriteExpandingNodeToFile(ExpandingNode);
+        } else {
             System.out.println("Leaf is already expanded!");
         }
     }
 
-    public void writeLeaf(PrintWriter pw) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.leafParams.getMyParams().get(0));
-        sb.append(",");
-        sb.append(this.yVal);
-        sb.append(",");
-        sb.append(this.depth);
-        sb.append(",");
-        sb.append(this.delta);
-        sb.append(",");
-        sb.append(this.idNum);
-        sb.append(",");
-        sb.append(this.originLeaf);
-        sb.append("\n");
+    public boolean CheckDeltaMinAndExpanded() {
+        return !expanded && delta / 3 > Dimension.allDims.get(0).getDimDelta();
+    }
 
-        pw.write(sb.toString());
+    public void WriteExpandingNodeToFile(Node ExpandingNode) {
+        for (Leaf leafToWrite : ExpandingNode.getNodeLeaves()) {
+            leafToWrite.WriteEachLeaf();
+        }
+    }
+
+    public void WriteEachLeaf() {printWriter.write(BuildStringForFile());}
+
+    public String BuildStringForFile() {
+        return this.leafCoOrds.getMyCoOrds().get(0) + "," + this.yVal + "," + this.depth + "," + this.delta + "," + this.idNum + "," + this.originLeaf + "\n";
+    }
+
+    public void OpenPrintWriterToFile() {
+        try {
+            printWriter = new PrintWriter(new File("NewData.csv"));
+            AddHeaderToFile();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AddHeaderToFile() {
+        StringBuilder sb = new StringBuilder();
+            sb.append("x_val,y_val,depth,delta,LeafId,originLeaf\n");
+            printWriter.write(sb.toString());
+    }
+
+    // Close print writer
+    public static void ClosePrintWriter() {
+        Objects.requireNonNull(printWriter).close();
     }
 
     // Constructor
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth, int inLeaf) {
+    public Leaf(CoOrds inputCoOrds, double inputDelta, int nodeIn, int inDepth, int inLeaf) {
         numLeaves++;
         idNum = numLeaves;
         depth = inDepth;
-        leafParams = inputParams;
+        leafCoOrds = inputCoOrds;
         delta = inputDelta;
         myNode = nodeIn;
         originLeaf = inLeaf;
-        double xVal = leafParams.getMyParams().get(0);
+        double xVal = leafCoOrds.getMyCoOrds().get(0);
+        yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
+    }
+    // Constructor
+    public Leaf(CoOrds inputCoOrds, double inputDelta, Node originNode) {
+        numLeaves++;
+        idNum = numLeaves;
+        depth = originNode.getNodeDepth();
+        leafCoOrds = inputCoOrds;
+        delta = inputDelta;
+        myNode = originNode.getNodeId();
+        originLeaf = originNode.getOriginLeaf();
+        double xVal = leafCoOrds.getMyCoOrds().get(0);
         yVal = 418.9829 - xVal * Math.sin(Math.sqrt(Math.abs(xVal)));
     }
     // Constructor overrides yVal
-    public Leaf(Params inputParams, double inputDelta, int nodeIn, int inDepth,int inLeaf, double inYVal) {
+    public Leaf(CoOrds inputCoOrds, double inputDelta, Node originNode, double inYVal) {
         numLeaves++;
         idNum = numLeaves;
-        depth = inDepth;
-        leafParams = inputParams;
+        depth = originNode.getNodeDepth();
+        leafCoOrds = inputCoOrds;
         delta = inputDelta;
-        myNode = nodeIn;
-        originLeaf = inLeaf;
+        myNode = originNode.getNodeId();
+        originLeaf = originNode.getOriginLeaf();
         yVal = inYVal;
     }
 
@@ -78,8 +114,8 @@ public class Leaf {
         return depth;
     }
 
-    public Params getLeafParams() {
-        return leafParams;
+    public CoOrds getLeafCoOrds() {
+        return leafCoOrds;
     }
 
     public double getDelta() {
