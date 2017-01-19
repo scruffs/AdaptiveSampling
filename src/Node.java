@@ -18,28 +18,6 @@ public class Node {
     private int maxLeaf;
     private final int LeavesPerNode = 3;
 
-    public int findMax() {
-        int start = -1;
-
-        for (int i = 2; i > -1; i--) {
-            if (nodeLeaves[i].getExpanded() == false) {
-                maxY = nodeLeaves[i].getyVal();
-                start = i;
-            }
-        }
-
-        for (int i = start; i < 3; i++) {
-            if (start == -1) {
-                System.out.println("Node completely expanded!");
-                return 0;
-            }
-            if (nodeLeaves[i].getyVal() > maxY & !nodeLeaves[i].getExpanded()) {
-                maxY = nodeLeaves[i].getyVal();
-                maxLeaf = i;
-            }
-        }
-        return maxLeaf;
-    }
 
     // constructor
     public Node(Leaf ExpandingLeaf) {

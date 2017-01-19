@@ -1,8 +1,3 @@
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-
 /**
  * Created by laine on 13/09/2016.
  */
@@ -23,7 +18,7 @@ public class DeterministicOptimisticOptimisation {
         startingLeaf.ExpandLeaf();
 
 
-        new SOOAlgorithm().AdapSamp();
+        new SOOAlgorithm().AdapaptiveSampling();
 
         Leaf.ClosePrintWriter();
 

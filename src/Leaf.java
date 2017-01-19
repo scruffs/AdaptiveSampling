@@ -20,22 +20,20 @@ public class Leaf {
     private final double yVal;
     private final int myNode;
     private final int originLeaf;
-    private boolean expanded = false;
 
 
     public void ExpandLeaf() {
-        if (CheckDeltaMinAndExpanded()) {
+        if (CheckDeltaMin()) {
             Node ExpandingNode = new Node(this);
-            expanded = true;
             unexpandedLeaves.remove(this);
             WriteExpandingNodeToFile(ExpandingNode);
         } else {
-            System.out.println("Leaf is already expanded!");
+            System.out.println("Node already expanded to max depth!");
         }
     }
 
-    public boolean CheckDeltaMinAndExpanded() {
-        return !expanded && delta / 3 > Dimension.allDims.get(0).getDimDelta();
+    public boolean CheckDeltaMin() {
+        return delta / 3 > Dimension.allDims.get(0).getDimDelta();
     }
 
     public void WriteExpandingNodeToFile(Node ExpandingNode) {
@@ -128,9 +126,5 @@ public class Leaf {
 
     public int getMyNode() {
         return myNode;
-    }
-
-    public boolean getExpanded() {
-        return expanded;
     }
 }
