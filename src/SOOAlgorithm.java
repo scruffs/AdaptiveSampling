@@ -14,18 +14,6 @@ public class SOOAlgorithm {
 
     public void AdapSamp() {
 
-        // Make the first dimension
-        Dimension test = new Dimension("schwef_x", -1000, 1000, 2);
-
-        // Create an instance of parameters
-        CoOrds myCoOrds = new CoOrds(0.0);
-
-        // Create the first leaf with the parameters given above. This will be the centre of the parameter space
-        Leaf startingLeaf = new Leaf(myCoOrds, 1000, 0, 0, 0);
-        Leaf.unexpandedLeaves.add(startingLeaf);
-        startingLeaf.OpenPrintWriterToFile();
-        startingLeaf.ExpandLeaf();
-
         // This is the actual algorithm to expand nodes around the maximum yVal leaves
         for (int i = 0; i < 22; i++) {
             // Find the max yVal leaf at each node depth or below
@@ -48,17 +36,6 @@ public class SOOAlgorithm {
 
         }
 
-        Leaf.ClosePrintWriter();
 
-        // Unit tests against known .csv file
-        File unitTest = new File("UnitTestData.csv");
-        File newOutput = new File("NewData.csv");
-        boolean areFilesEqual = false;
-        try {
-            areFilesEqual = FileUtils.contentEquals(unitTest, newOutput);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("File testing produces " + areFilesEqual + " result!");
     }
 }
