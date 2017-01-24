@@ -11,6 +11,7 @@ public class Node {
 
     private int nodeDepth;
     private Leaf[] nodeLeaves = new Leaf[3];
+    private Leaf ExpandingLeaf;
     private final int nodeId;
     private final int originNode;
     private final int originLeaf;
@@ -20,16 +21,17 @@ public class Node {
 
 
     // constructor
-    public Node(Leaf ExpandingLeaf) {
+    public Node(Leaf InputLeaf) {
         numNodes++;
         nodeId = numNodes;
+        ExpandingLeaf = InputLeaf;
         originLeaf = ExpandingLeaf.getIdNum();
         originNode = ExpandingLeaf.getMyNode();
         nodeDepth = ExpandingLeaf.getDepth() + 1;
 
         CheckSetMaxDepth();
-        CoOrds[] CoOrdsForNewLeaves = NewNodeCoOrds(ExpandingLeaf);
-        FillNodeLeaves(CoOrdsForNewLeaves, ExpandingLeaf);
+        CoOrds[] CoOrdsForNewLeaves = NewNodeCoOrds();
+        FillNodeLeaves(CoOrdsForNewLeaves);
         AddLeavesToUnexpandedList();
         allNodes.add(this);
     }
@@ -40,25 +42,25 @@ public class Node {
         }
     }
 
-    private CoOrds[] NewNodeCoOrds(Leaf ExpandingLeaf) {
+    private CoOrds[] NewNodeCoOrds() {
         CoOrds[] NewCoOrds = new CoOrds[LeavesPerNode];
         for (int i = -1; i < 2; i++) {
-            NewCoOrds[i + 1] = new CoOrds(LeafCentre(ExpandingLeaf) + (i * 2 * NewLeafDelta(ExpandingLeaf)));
+            NewCoOrds[i + 1] = new CoOrds(LeafCentre() + (i * 2 * NewLeafDelta()));
         }
         return NewCoOrds;
     }
 
-    private void FillNodeLeaves(CoOrds[] newCoOrds, Leaf ExpandingLeaf) {
-        nodeLeaves[0] = new Leaf(newCoOrds[0], NewLeafDelta(ExpandingLeaf), Node.this);
-        nodeLeaves[1] = new Leaf(newCoOrds[1], NewLeafDelta(ExpandingLeaf), Node.this, ExpandingLeaf.getyVal());
-        nodeLeaves[2] = new Leaf(newCoOrds[2], NewLeafDelta(ExpandingLeaf), Node.this);
+    private void FillNodeLeaves(CoOrds[] newCoOrds) {
+        nodeLeaves[0] = new Leaf(newCoOrds[0], NewLeafDelta(), Node.this);
+        nodeLeaves[1] = new Leaf(newCoOrds[1], NewLeafDelta(), Node.this, ExpandingLeaf.getyVal());
+        nodeLeaves[2] = new Leaf(newCoOrds[2], NewLeafDelta(), Node.this);
     }
 
-    private double LeafCentre(Leaf ExpandingLeaf) {
+    private double LeafCentre() {
         return ExpandingLeaf.getLeafCoOrds().getMyCoOrds().get(0);
     }
 
-    private double NewLeafDelta(Leaf ExpandingLeaf) {
+    private double NewLeafDelta() {
         return ExpandingLeaf.getDelta()/ LeavesPerNode;
     }
 
